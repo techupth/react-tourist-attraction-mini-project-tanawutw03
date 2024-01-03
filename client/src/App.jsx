@@ -4,7 +4,9 @@ function App() {
   return (
     <div className="App">
       {/* Start coding here */}
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <h1 className="font-prompt text-3xl font-bold underline text-center mt-5 text-sky-500">
+        เที่ยวไหนดี
+      </h1>
     </div>
   );
 }
