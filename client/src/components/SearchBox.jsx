@@ -23,11 +23,11 @@ function SearchBox() {
   // Debounce the fetchData function to trigger it after a delay
   const debouncedFetchData = _debounce(fetchData, 300);
 
-  const handleChange = (event) => {
+  const handleChange = (event, tagValue) => {
     // setSearchTerm(event.target.value);
     const { value } = event.target;
-    setSearchTerm(value);
-    debouncedFetchData(value); // Trigger the debounced fetchData with the updated search term
+    setSearchTerm(value || tagValue || "");
+    debouncedFetchData(value || tagValue || ""); // Trigger the debounced fetchData with the updated search term
   };
 
   // useEffect(() => {
@@ -86,11 +86,21 @@ function SearchBox() {
                     {result.tags.map((tag, index) => (
                       <span key={index}>
                         {index !== result.tags.length - 1 ? (
-                          <span className="p-1 underline">{tag} </span>
+                          <span
+                            className="p-1 underline cursor-pointer"
+                            onClick={(e) => handleChange(e, tag)}
+                          >
+                            {tag}{" "}
+                          </span>
                         ) : (
                           <>
                             <span className="p-1">และ</span>
-                            <span className="p-1 underline">{tag}</span>
+                            <span
+                              className="p-1 underline cursor-pointer"
+                              onClick={(e) => handleChange(e, tag)}
+                            >
+                              {tag}
+                            </span>
                           </>
                         )}
                       </span>
