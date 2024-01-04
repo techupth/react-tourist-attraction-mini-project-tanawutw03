@@ -3,6 +3,7 @@ import axios from "axios";
 import _debounce from "lodash/debounce";
 import ReadMore from "./ReadMore";
 import PlaceTitle from "./PlaceTitle";
+import ClipBoard from "./ClipBoard";
 
 function SearchBox() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,14 +61,18 @@ function SearchBox() {
         {searchResults.length > 0 ? (
           <>
             {searchResults.map((result) => (
-              <div key={result.eid} className="flex mb-4">
+              <div key={result.eid} className="flex mb-4 relative">
                 <div className="mr-4">
                   <img
                     src={result.photos[0]}
                     alt={result.title}
                     className="rounded-lg w-64 h-64 min-w-64 min-h-64 object-cover"
                   />
+                  <div className="h-10 w-10 absolute bottom-0 right-0">
+                    <ClipBoard textToCopy={result.url} />
+                  </div>
                 </div>
+
                 <div className="">
                   <h1 className="font-bold text-2xl">
                     <PlaceTitle title={result.title} url={result.url} />
