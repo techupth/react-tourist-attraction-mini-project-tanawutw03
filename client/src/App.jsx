@@ -1,14 +1,29 @@
 import "./App.css";
-import SearchBox from "./components/searchBox";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+
+import HomePage from "./pages/HomePage";
+
+const NoMatch = () => (
+  <div className="flex justify-center items-center h-screen">
+    <h1 className="text-center font-bold text-6xl">Page Not Found.</h1>
+  </div>
+);
 
 function App() {
+  useEffect(() => {
+    document.title = "Tanawut Wongboot's React App";
+  }, []);
+
   return (
     <div className="App">
       {/* Start coding here */}
-      <h1 className="font-prompt text-3xl font-bold  text-center mt-5 text-sky-500">
-        เที่ยวไหนดี
-      </h1>
-      <SearchBox />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="*" element={<NoMatch />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

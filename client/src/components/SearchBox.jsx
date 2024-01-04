@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import _debounce from "lodash/debounce";
+import ReadMore from "./ReadMore";
+import PlaceTitle from "./PlaceTitle";
 
 function SearchBox() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,7 +13,7 @@ function SearchBox() {
       const url = `http://localhost:4001/trips?keywords=${searchTerm}`;
       const response = await axios.get(url);
       setSearchResults(response.data.data);
-      console.log(response.data.data);
+      // console.log(response.data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -30,9 +32,9 @@ function SearchBox() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("Search results:", searchResults);
-  }, [searchResults]);
+  // useEffect(() => {
+  //   console.log("Search results:", searchResults);
+  // }, [searchResults]);
 
   return (
     <>
@@ -49,17 +51,55 @@ function SearchBox() {
           />
         </form>
       </div>
-      <div>
+      <div className="m-5">
         {searchResults.length > 0 ? (
-          <ul>
+          <>
             {searchResults.map((result) => (
-              <li key={result.eid}>
-                <h3>Title: {result.title}</h3>
-                <p>Description: {result.description}</p>
-                {/* Render other properties */}
-              </li>
+              <div key={result.eid} className="flex mb-4">
+                <div className="mr-4">
+                  <img
+                    src={result.photos[0]}
+                    alt={result.title}
+                    className="rounded-lg w-64 h-64 min-w-64 min-h-64 object-cover"
+                  />
+                </div>
+                <div className="">
+                  <h1 className="font-bold text-2xl">
+                    <PlaceTitle title={result.title} url={result.url} />
+                  </h1>
+                  <p className="text-gray-500 line-clamp-1">
+                    {result.description}
+                  </p>
+                  <ReadMore url={result.url} />
+                  <div className="flex gap-2 mb-2">
+                    {result.tags.length > 0 && <p className="">หมวด</p>}
+                    {result.tags.map((tag, index) => (
+                      <span key={index}>
+                        {index !== result.tags.length - 1 ? (
+                          <span className="p-1 underline">{tag} </span>
+                        ) : (
+                          <>
+                            <span className="p-1">และ</span>
+                            <span className="p-1 underline">{tag}</span>
+                          </>
+                        )}
+                      </span>
+                    ))}
+                  </div>{" "}
+                  <div className="flex gap-5">
+                    {result.photos.slice(1).map((photo, index) => (
+                      <img
+                        key={index}
+                        src={photo}
+                        alt={`${result.title} - ${index + 1}`}
+                        className="w-32 rounded-lg"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             ))}
-          </ul>
+          </>
         ) : (
           <p className="text-center">ไม่พบข้อมูล</p>
         )}
