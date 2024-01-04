@@ -23,10 +23,15 @@ function SearchBox() {
   const debouncedFetchData = _debounce(fetchData, 300);
 
   const handleChange = (event) => {
+    // setSearchTerm(event.target.value);
     const { value } = event.target;
     setSearchTerm(value);
     debouncedFetchData(value); // Trigger the debounced fetchData with the updated search term
   };
+
+  // useEffect(() => {
+  //   fetchData(searchTerm);
+  // }, [searchTerm]);
 
   useEffect(() => {
     fetchData();
